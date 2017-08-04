@@ -1,0 +1,15 @@
+<html>
+<body>
+<form action= "{{request.url_rule}}" method = 'POST'>
+{%for restaurant in restaurants%}
+<div>
+    <input type="radio" name="restaurant" value={{restaurant.id}}>
+    {{restaurant.name}}
+    <br>
+</div>
+{%endfor%}
+<br>
+<input type="submit" value="Get menu!">
+</form>
+</body>
+</html>
