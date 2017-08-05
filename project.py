@@ -12,12 +12,19 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index/', methods=['GET', 'POST'])
 def restaurantList():
     if request.method == 'POST':
         restaurant_id = request.form['restaurant']
-        return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
+        if request.form['ops'] == "Get menu":
+            return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
+        elif request.form['ops'] == "Add new":
+            return redirect('/new')
+        elif request.form['ops'] == "Edit":
+            return redirect(url_for('editRestaurant', restaurant_id=restaurant_id))
+        elif request.form['ops'] == "Delete":
+            return redirect(url_for('deleteRestaurant', restaurant_id=restaurant_id))
     else:
         restaurants = session.query(Restaurant).all()
         return render_template('restaurants.html', restaurants=restaurants)
