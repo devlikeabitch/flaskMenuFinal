@@ -11,8 +11,9 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 @app.route('/', methods=['GET','POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index/', methods=['GET', 'POST'])
 def restaurantList():
     if request.method == 'POST':
         restaurant_id = request.form['restaurant']
@@ -21,7 +22,19 @@ def restaurantList():
         restaurants = session.query(Restaurant).all()
         return render_template('restaurants.html', restaurants=restaurants)
 
-@app.route('/restaurants/<int:restaurant_id>', methods=['GET','POST'])
+@app.route('/new/', methods=['GET','POST'])
+def addNewRestaurant():
+    return render_template('newRestaurant.html')
+
+@app.route('/<int:restaurant_id>/edit/')
+def editRestaurant(restaurant_id):
+    return render_template('editRestaurant.html')
+
+@app.route('/<int:restaurant_id>/delete/')
+def deleteRestaurant(restaurant_id):
+    return render_template('deleteRestaurant.html')
+
+@app.route('/restaurants/<int:restaurant_id>/', methods=['GET','POST'])
 def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
@@ -46,6 +59,8 @@ def editMenuItem(restaurant_id, menu_id):
     if request.method == 'POST':
         if request.form['name']:
             item.name = request.form['name']
+            item.price = request.form['price']
+            item.description = request.form['description']
             session.add(item)
             session.commit()
             flash('item was edited')
