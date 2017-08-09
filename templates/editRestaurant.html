@@ -1,5 +1,8 @@
 <html>
 <body>
-    <h1>edit restaurant page</h1>
+<form action= "{{url_for('edit', restaurant_id=restaurant_id)}}" method = 'POST'>
+<input type = 'text' size='30' name = 'name' placeholder = '{{restaurant.name}}'><br>
+<input type='submit' value='Edit'>
+</form>
 </body>
 </html>

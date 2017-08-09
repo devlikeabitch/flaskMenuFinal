@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
@@ -40,9 +40,16 @@ def addNewRestaurant():
     else:
         return render_template('newRestaurant.html')
 
-@app.route('/<int:restaurant_id>/edit/')
+@app.route('/<int:restaurant_id>/edit/', methods=['GET','POST'])
 def editRestaurant(restaurant_id):
-    return render_template('editRestaurant.html')
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    if request.method == 'POST':
+        restaurant.name = request.form['name']
+        session.add(restaurant)
+        session.commit()
+        return redirect(url_for('restaurantList'))
+    else:
+        return render_template('editRestaurant.html', restaurant_id=restaurant_id, restaurant=restaurant)
 
 @app.route('/<int:restaurant_id>/delete/', methods=['GET','POST'])
 def deleteRestaurant(restaurant_id):
@@ -74,7 +81,6 @@ def newMenuItem(restaurant_id):
             'description'], price=request.form['price'], course=request.form['course'], restaurant_id=restaurant_id)
         session.add(newItem)
         session.commit()
-        flash('new item was added')
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('newMenuItem.html', restaurant_id=restaurant_id)
@@ -89,7 +95,6 @@ def editMenuItem(restaurant_id, menu_id):
             item.description = request.form['description']
             session.add(item)
             session.commit()
-            flash('item was edited')
             return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('editMenuItem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=item)
@@ -101,7 +106,6 @@ def deleteMenuItem(restaurant_id, menu_id):
     if request.method == 'POST':
             session.delete(item)
             session.commit()
-            flash('itew was deleted')
             return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('deleteMenuItem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=item)
