@@ -49,6 +49,9 @@ def deleteRestaurant(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     if request.method == 'POST':
         if request.form['op'] == 'Delete':
+            items = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
+            for item in items:
+                session.delete(item)
             session.delete(restaurant)
             session.commit()
             return redirect(url_for('restaurantList'))
