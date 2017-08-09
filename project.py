@@ -44,9 +44,18 @@ def addNewRestaurant():
 def editRestaurant(restaurant_id):
     return render_template('editRestaurant.html')
 
-@app.route('/<int:restaurant_id>/delete/')
+@app.route('/<int:restaurant_id>/delete/', methods=['GET','POST'])
 def deleteRestaurant(restaurant_id):
-    return render_template('deleteRestaurant.html')
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    if request.method == 'POST':
+        if request.form['op'] == 'Delete':
+            session.delete(restaurant)
+            session.commit()
+            return redirect(url_for('restaurantList'))
+        else:
+            return redirect(url_for('restaurantList'))
+    else:
+        return render_template('deleteRestaurant.html', restaurant_id=restaurant_id, restaurant=restaurant)
 
 @app.route('/restaurants/<int:restaurant_id>/', methods=['GET','POST'])
 def restaurantMenu(restaurant_id):
