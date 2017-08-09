@@ -16,11 +16,11 @@ session = DBSession()
 @app.route('/index/', methods=['GET', 'POST'])
 def restaurantList():
     if request.method == 'POST':
+        if request.form['ops'] == "Add new":
+            return redirect('/new')
         restaurant_id = request.form['restaurant']
         if request.form['ops'] == "Get menu":
             return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
-        elif request.form['ops'] == "Add new":
-            return redirect('/new')
         elif request.form['ops'] == "Edit":
             return redirect(url_for('editRestaurant', restaurant_id=restaurant_id))
         elif request.form['ops'] == "Delete":
