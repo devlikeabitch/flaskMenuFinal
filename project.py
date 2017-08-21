@@ -44,7 +44,7 @@ def restaurantList():
             return redirect(url_for('deleteRestaurant', restaurant_id=restaurant_id))
     else:
         restaurants = session.query(Restaurant).all()
-        return render_template('restaurants_bootstrap.html', restaurants=restaurants)
+        return render_template('restaurants.html', restaurants=restaurants)
 
 @app.route('/new/', methods=['GET','POST'])
 def addNewRestaurant():
