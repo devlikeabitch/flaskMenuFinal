@@ -1,18 +1,40 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+</head>
 <body>
-<form action= "{{request.url_rule}}" method = 'POST'>
-{%for restaurant in restaurants%}
-<div>
-    <input type="radio" name="restaurant" value={{restaurant.id}}>
-    {{restaurant.name}}
-    <br>
+<div class="container" style="padding-top: 3%;">
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="background: red">
+            <h1 align="center" style="color: white">АФИША.Рестораны</h1>
+        </div>
+    </div>
+    <form action= "{{request.url_rule}}" method = 'POST'>
+    <div class="row justify-content-center" style="padding-top: 3%">
+        <div class="col-md-4">
+                <table class="table">
+                    <tbody>
+                    {%for restaurant in restaurants%}
+                    <tr>
+                    <th scope="row"><input type="radio" name="restaurant" value={{restaurant.id}}></th>
+                    <td>{{restaurant.name}}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <div class="row justify-content-center" style = "padding-bottom: 3% ">
+        <div class="col-md-">
+            <input type="submit" name="ops" value="Get menu">
+            <input type="submit" name="ops" value="Add new">
+            <input type="submit" name="ops" value="Edit">
+            <input type="submit" name="ops" value="Delete">
+        </div>
+    </div>
+    </form>
 </div>
-{%endfor%}
-<br>
-<input type="submit" name="ops" value="Get menu">
-<input type="submit" name="ops" value="Add new">
-<input type="submit" name="ops" value="Edit">
-<input type="submit" name="ops" value="Delete">
-</form>
 </body>
 </html>
