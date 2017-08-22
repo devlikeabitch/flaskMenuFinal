@@ -1,37 +1,43 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
 <body>
-<h1>{{restaurant.name}}</h1>
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-
-<ul>
-{% for message in messages %}
-  <li><strong>{{message}}</strong></li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-
-<a href="{{ url_for('newMenuItem', restaurant_id=restaurant.id) }}">Create new menu entry</a>
-
-
-{% for i in items %}
-
-<div>
-    <br>
-    {{i.name}}
-    <br>
-    {{i.price}}
-    <br>
-    {{i.description}}
-    <br>
-    <a href="{{ url_for('editMenuItem', menu_id=i.id, restaurant_id=restaurant.id) }}">Edit</a>
-    <br>
-    <a href="{{ url_for('deleteMenuItem', menu_id=i.id, restaurant_id=restaurant.id) }}">Delete</a>
-</div>
-
-{% endfor %}
-
+    <div class="container p-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center" style="background: red">
+                <h1 style="color: white">{{restaurant.name}}</h1>
+            </div>
+        </div>
+    <div class="row justify-content-center pt-5">
+        <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                    {% for i in items %}
+                    <tr>
+                    <td class="col-md-4">
+                        <p class="font-weight-bold">{{i.name}}</p>
+                        <p class="font-italic">{{i.description}}</p>
+                    </td>
+                    <td class="col-md-1">{{i.price}}</td>
+                    <td class="col-md-1">
+                        <a href="{{ url_for('editMenuItem', menu_id=i.id, restaurant_id=restaurant.id) }}"><img class="img-fluid" src="{{url_for('static', filename='icons/edit.ico')}}" style="max-width: 25%; max-height: 25%"></a>
+                        <a href="{{ url_for('deleteMenuItem', menu_id=i.id, restaurant_id=restaurant.id) }}"><img class="img-fluid" src="{{url_for('static', filename='icons/delete.ico')}}" style="max-width: 25%; max-height: 25%"></a>
+                    </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-6 mx-auto text-center">
+            <a href="{{url_for('newMenuItem', restaurant_id = restaurant.id)}}">Create new menu item</a>
+        </div>
+    </div>
+    </div>
 </body>
 </html>
