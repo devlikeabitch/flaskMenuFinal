@@ -1,9 +1,27 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
 <body>
-<h1> Are you sure you want to delete {{restaurant.name}}? </h1>
-<form action= "{{url_for('deleteRestaurant', restaurant_id=restaurant_id)}}" method = 'POST'>
-<input type='submit' name='op' value='Delete'>
-<input type='submit' name='op' value='Cancel'>
-</form>
+    <div class="container py-5">
+    <div class="row pb-2">
+        <div class="col-md-6 mx-auto">
+            <h1 class="text-center">Are you sure you want to delete "{{restaurant.name}}"?</h1>
+        </div>
+    </div>
+    <form action= "{{url_for('deleteRestaurant', restaurant_id=restaurant_id)}}" method = 'POST'>
+    <div class="row pt-2">
+        <div class="col-md-6 mx-auto">
+            <div class="text-center">
+                <input type='submit' name='op' value='Delete'>
+                <input type='submit' name='op' value='Cancel'>
+            </div>
+        </div>
+    </div>
+    </form>
+    </div>
 </body>
 </html>
