@@ -1,16 +1,34 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
 <body>
-<form action= "{{url_for('newMenuItem', restaurant_id = restaurant_id)}}" method = 'POST'>
-    <input type = 'text' size='30' name = 'name' placeholder="name">
-    <br>
-    <input type = 'text' size='30' name = 'price' placeholder="price">
-    <br>
-    <input type = 'text' size='30' name = 'course' placeholder="course">
-    <br>
-    <input type = 'text' size='30' name = 'description' placeholder="description">
-    <br>
-    <input type='submit' value='New'>
-</form>
-<a href= "{{url_for('restaurantMenu', restaurant_id=restaurant_id)}}">Cancel</a>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto text-center">
+            <h1>Add new menu item for current restaurant:</h1>
+            </div>
+        </div>
+            <form action= "{{url_for('newMenuItem', restaurant_id = restaurant_id)}}" method = 'POST'>
+                <div class="row pb-3 pt-3 justify-content-center">
+                    <div class="col-md-3 mx-auto">
+                        <input type = 'text' class="form-control" name = 'name' placeholder="Item's name"><br>
+                        <input type = 'text' class="form-control" name = 'price' placeholder="Item's price"><br>
+                        <input type = 'text' class="form-control" name="course" placeholder="Item's course"><br>
+                        <input type = 'text' class="form-control" name = 'description' placeholder="Item's description"><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mx-auto text-center">
+                        <input class="mx-3" type='submit' value='Add'>
+                        or
+                        <a class="mx-3" href= "{{url_for('restaurantMenu', restaurant_id=restaurant_id)}}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+    </div>
 </body>
 </html>
